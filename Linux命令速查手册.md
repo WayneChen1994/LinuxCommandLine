@@ -1069,3 +1069,426 @@ locate命令的搜索选项：
 
 ## gzip
 
+格式：`gzip|gunzip|zcat [options] [files]`
+
+作用：gzip命令和gunzip命令可利用GNU Zip格式来压缩和解压文件。在某些情况下，原始文件可能会被删除。使用这些命令的时候，压缩文件的扩展名为.gz
+
+示例命令：
+
+gzip file	压缩文件，生成file.gz。同时，原始文件会被删除
+
+gzip -c file	生成压缩数据，并输出至标准输出
+
+cat file | gzip	从命令管道生成压缩数据
+
+gunzip file.gz	解压file.gz，并创建file文件。原始文件file.gz将被删除
+
+gunzip -c file.gz	将数据解压至标准输出
+
+cat file.gz | gunzip	解压来自命令管道的数据
+
+zcat file.gz	解压数据，并输出至标准输出
+
+tar -czf tarfile dir	通过gzip将目录dir打包成tar文件。使用-cvzf选项时，会在处理它们时输出其文件名
+
+---
+
+## bzip2
+
+格式：`bzip2|bunzip2|bzcat [options] [files]`
+
+作用：bzip2命令和bunzip2命令可利用Burrows-Wheeler格式压缩和解压文件。在某些情况下，原始文件可能会被删除。使用这些命令的时候，压缩文件的扩展名为.bz2
+
+示例命令：
+
+bzip2 file		压缩file，从而生成file.bz2。原始文件会被删除
+
+bzip2 -c file	压缩数据，并将结果写至标准输出
+
+cat file | bzip2	压缩数据，并将结果写至标准输出
+
+bunzip2 file.bz2	解压file.bz2，从而生成file。原始文件file.bz2将被删除
+
+bunzip2 -c file.bz2	解压缩数据，并将结果写至标准输出
+
+cat file.bz2 | bunzip2	解压缩数据，并将结果写至标准输出
+
+bzcat file.bz2		解压缩数据，并将结果写至标准输出
+
+tar -cjf tarfile dir	将目录dir打包成bzip压缩格式的tar文件。使用-cvjf可以在处理过程中显示相应的文件名
+
+---
+
+## compress
+
+格式：`compress|uncompress|zcat [options] [files]`
+
+作用：compress命令和uncompress命令可利用标准的UNIX压缩格式（Lempel Ziv）来压缩和解压文件。在某些情况下，原始文件可能会被删除。使用这些命令的时候，生成的压缩文件的扩展名为.Z
+
+示例命令：
+
+compress file		压缩file，从而生成file.Z文件。原始文件会被删除
+
+compress -c file	压缩数据，并将结果写至标准输出
+
+cat file | compress	压缩来自命令管道的数据
+
+uncompress file.Z	解压file.Z，从而生成file。原始文件file.Z将被删除
+
+uncompress -c file.Z	解压缩数据，并将结果写至标准输出
+
+cat file.Z | uncompress	解压来自命令管道中的数据
+
+zcat file.Z		解压缩数据，并将结果写至标准输出
+
+tar -cZf tarfile dir	将目录dir打包成compress命令格式的tar文件。使用-cvZf选项时，可以在处理过程中显示相应的文件名
+
+---
+
+## zip
+
+格式：`zip|unzip [options] [files]`
+
+作用：命令zip和unzip能够以Windows Zip格式来压缩和解压文件。它们生成的压缩文件的扩展名为.zip。与大多数其他Linux压缩命令不同，zip不会删除原始文件
+
+示例命令：
+
+zip myfile.zip file1 file2 file3 ...		文件打包
+
+zip -r myfile.zip dirname		递归打包
+
+unzip -l myfile.zip	列出内容
+
+unzip myzip	解包
+
+---
+
+## munpack
+
+格式：`munpack [options] mail_file`，`mpack [options] files`
+
+作用：munpack可以将邮件的附件解压为文件，mpack则是将一个或多个文件作为附件插入到MIME格式的文件中
+
+---
+
+## 文件的比较
+
+| 命令   | 作用                        |
+| ------ | --------------------------- |
+| diff   | 对两个文件或目录逐行比较    |
+| comm   | 对两个排序后的文件逐行比较  |
+| cmp    | 对两个文件逐字节比较        |
+| md5sum | 计算给定文件的校验和（MD5） |
+
+---
+
+## diff
+
+格式：`diff [options] file1 file2`
+
+作用：diff命令可用来对两个文件（或两个目录）进行逐行比较。在比较文本文件时，diff可以提供详细的差异报告。对于二进制文件，diff仅能指出是否存在差异。对于所有文件来说，如果没有差异的话，diff都不会生成任何输出
+
+常用选项：
+
+-n	使用rcsdiff命令的RCS版本控制格式
+
+-c	使用上下文输出格式，供patch命令使用
+
+-D macro		C预处理器格式，即#ifdef macro ... #else ... #endif格式
+
+-u	一体化输出格式，它会对文件进行合并处理，其中“-”表示删除，“+”表示添加
+
+-y	并排格式；使用-W来调整输出的宽度
+
+-e	创建一个ed脚本，如果运行该脚本的话，将会把fileA变为fileB
+
+-q	不报告发生的哪些变化，仅指出是否存在差异
+
+-b	不考虑空格
+
+-B	不考虑空白行
+
+-i	忽略大小写
+
+-r	当比较目录时，递归考察子目录
+
+---
+
+## comm
+
+格式：`comm [options] file1 file2`
+
+作用：比较两个已排序的文件，并生成由三列组成的输出，各列之间以制表符分隔
+
+第1列：所有出现在file1中但不在file2中的行
+
+第2列：所有出现在file2中但不在file1中的行
+
+第3列：所有同时出现在两个文件中的行
+
+常用选项：
+
+-1	不显示第1列
+
+-2	不显示第2列
+
+-3	不显示第3列
+
+-23	显示仅在第一个文件中出现的行
+
+-13	显示仅在第二个文件中出现的行
+
+-12	显示同时出现在第一个和第二个文件中的行
+
+---
+
+## cmp
+
+格式：`cmp [options] file1 file2 [offset1 [offset2]]`
+
+作用：比较两个文件，如果它们的内容是一样的，则不会输出任何内容；否则给出第一处差异所在的位置。通常情况下，cmp命令都是从每个文件的开头处开始比较，但如果提供了偏移量的话，则将从指定的地方开始比较
+
+常用选项：
+
+-l	长输出：逐字节输出所有差异
+
+-s	静默输出：不打印任何东西，只在退出程序时返回相应的状态码；如果文件匹配，返回0，如果不匹配返回1（如果比较失败的话，则返回其他代码）
+
+---
+
+## md5sum
+
+格式：`md5sum files | --check file`
+
+作用：md5sum命令与校验和一起使用的时候，可以用来验证文件是否未经改动。该命令的第一种使用方式是通过MD5算法为指定文件生成32字节校验和；第二种使用方式则是测试校验和是否与相应的文件相匹配，这时需要使用--check选项
+
+注：shasum是一个更为强大程序，但是（到目前为止）还不太流行，它可以使用不同的算法来生成更长的哈希值。因此，它要比md5sum更加可靠一些
+
+---
+
+## 处理PDF文件和PostScript文件
+
+| 命令           | 作用                                          |
+| -------------- | --------------------------------------------- |
+| pdftotext      | 从PDF文件中提取文本                           |
+| ps2ascii       | 从PostScript或PDF文件中提取文本               |
+| pdfseparate    | 从PDF中提取单页                               |
+| pdftk          | 通过拆分、连接、旋转或以其他方式来操作PDF文件 |
+| pdf2ps，ps2pdf | 实现PDF和PostScript之间的格式转换             |
+
+---
+
+## pdftotext
+
+格式：`pdftotext [options] [file.pdf [outfile.txt]]`
+
+作用：从PDF文件中提取文本数据，并将其写入指定的文件中。只有当PDF包含实际文本，而非文本的图像时，该命令才能生效
+
+常用选项：
+
+-f N		从PDF的第N页开始。注意，必须在选项和数字之间留出空格
+
+-l N		在PDF文件的第N页结束。同样，必须在选项和数字之间留出空格
+
+-htmlmeta	生成HTML，而非纯文本
+
+-eol(dos|mac|unix)		在文本中使用给定操作系统的行尾字符
+
+---
+
+## ps2ascii
+
+格式：`ps2ascii [file.(ps|pdf)] [outfile.txt]`
+
+作用：从PostScript或PDF文件中提取文本
+
+---
+
+## pdfseparate
+
+格式：`pdfseparate [options] [file.pdf] [pattern.txt]`
+
+作用：将一个PDF文件分割成多个独立的PDF文件，每页对应一个文件。最后一个参数是单页文件名称的组成方式，其中的%d表示提取的页码
+
+常用选项：
+
+-f N		从PDF的第N页开始。必须在选项和数字之间留出空格
+
+-l N		至PDF文件的第N页结束。必须在选项和数字之间留出空格
+
+---
+
+## pdftk
+
+格式：`pdftk [arguments]`
+
+作用：从PDF文件中提取页面，或将多个PDF文件合并成一个、旋转页面、添加水印、加密和解密等
+
+---
+
+## pdf2ps
+
+格式：`pdf2ps [options] file.pdf [file.ps]`，`ps2pdf [options] file.ps [file.pdf]`
+
+作用：pdf2ps命令可以将Adobe PDF文件转换为PostScript文件（如果不提供输出文件名，则默认使用输入文件名，只是将.pdf替换为.ps而已，其他部分不变）；相反，ps2pdf命令则可以将PostScript文件转换为PDF格式
+
+---
+
+## 打印
+
+| 命令 | 作用                 |
+| ---- | -------------------- |
+| lpr  | 打印文件             |
+| lpq  | 查看打印队列         |
+| lprm | 从队列中删除打印作业 |
+
+---
+
+## lpr
+
+格式：`lpr [options] [files]`
+
+作用：向打印机发送文件
+
+常用选项：
+
+-P printername	将文件发送给之前设置的打印机printername
+
+`- #N`		打印N份副本
+
+-J name		设置封面打印作业name（如果系统已经设置为打印封面的话）
+
+---
+
+## lpq
+
+格式：`lpq [options]`
+
+作用：显示处于等待状态的所有打印任务
+
+常用选项：
+
+-P printername	显示打印机printername的队列
+
+-a		显示所有打印机的队列
+
+-l		冗长模式：使用长格式显示信息
+
+---
+
+## lprm
+
+格式：`lprm [options] [job_IDs]`
+
+作用：取消一个或多个打印作业。如果不提供任何作业ID的话，当前的打印作业将被取消（注意，只有超级用户才能够取消其他用户的作业）。-P选项用来指出作业所在的打印队列
+
+---
+
+## 拼写检查
+
+| 命令   | 作用                       |
+| ------ | -------------------------- |
+| look   | 快速检查单词的拼写是否出错 |
+| aspell | 交互式的拼写检查程序       |
+| spell  | 批处理式的拼写检查程序     |
+
+---
+
+## look
+
+格式：`look [options] prefix [dictionary_file]`
+
+作用：打印以给定字符串prefix开头的单词，这些单词通常位于一个字典文件中（默认为/usr/share/dict/words）。当你提供自己的字典文件（可以是任何文本文件，只要各行按字母顺序排序即可）时，look命令将打印以给定字符串prefix开头的所有行
+
+常用选项：
+
+-f	忽略大小写
+
+-t X	设置终止字符X，即将该字符之前（包括该字符）的内容作为匹配字
+
+---
+
+## aspell
+
+格式：`aspell [options] file | command`
+
+作用：找出无法识别的单词，并给出相应的替代词
+
+常用命令：
+
+aspell -c file	通过交互方式对文件中的所有单词的拼写进行检查和纠正
+
+aspell dump master		在标准输出上显示aspell的主字典
+
+aspell help	打印一个简明的帮助信息
+
+---
+
+## spell
+
+格式：`spell [files]`
+
+作用：输出给定文件中与其字典相比存在拼写错误的所有单词
+
+---
+
+## 磁盘和文件系统
+
+| 命令   | 作用                           |
+| ------ | ------------------------------ |
+| df     | 显示已挂载文件系统上的可用空间 |
+| mount  | 使磁盘分区可以访问             |
+| umount | 卸载磁盘分区（使其无法访问）   |
+| fsck   | 检查磁盘分区是否出错           |
+| eject  | 弹出CD、DVD或其他可移动磁盘    |
+
+---
+
+## df
+
+格式：`df [options] [disk devices | files | directories]`
+
+作用：显示给定磁盘分区的大小，以及其中已用空间和可用空间的大小。如果指定了文件或目录的话，df将提供该文件或目录所在的磁盘设备的相关数据。如果不提供参数的话，df将会显示已挂载的所有文件系统的使用情况
+
+常用选项：
+
+-k	以千字节为单位显示大小（默认值）
+
+-m	以兆字节为单位显示大小
+
+-B N	显示区块数目，并将区块大小指定为N个字节（默认值=1024）
+
+-h|-H	为了以可读性较高的方式来显示信息，为每个空间大小选择最合适的单位。使用-h选项时，1K=1000；使用-H选项时，1K=1024
+
+-l	仅显示本地文件系统，而不显示网络文件系统
+
+-T	在输出中提供文件系统类型
+
+-t type	仅显示给定类型的文件系统
+
+-x type	不显示给定类型的文件系统
+
+-i	Inode模式。显示每个文件系统的inode总量以及已经使用和空闲的inode数量，而不是磁盘块的相应数量
+
+---
+
+## mount
+
+格式：`mount [options] device | directory`
+
+作用：挂载分区，使其处于可用状态
+
+常用选项：
+
+-t type	指定文件系统的类型
+
+-l	显示所有已挂载的文件系统，也可以与-t组合使用
+
+-a	挂载/etc/fstab中列出的所有文件系统。忽略包含noauto选项的条目，也可以与-t组合使用
+
+-r	挂载只读文件系统
+
+---
+
+## umount
+
